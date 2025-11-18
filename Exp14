@@ -1,0 +1,99 @@
+#include <stdio.h>
+#include <string.h>
+
+struct {
+    char fname[20];
+} directory[20];  
+
+int main() {
+    int n = 0;
+    int choice;
+    char name[20];
+
+    while (1) {
+        printf("\n--- Single Level Directory ---");
+        printf("\n1. Create File");
+        printf("\n2. Delete File");
+        printf("\n3. Search File");
+        printf("\n4. Display Files");
+        printf("\n5. Exit");
+        printf("\nEnter your choice: ");
+        scanf("%d", &choice);
+
+        switch (choice) {
+            case 1:
+                printf("Enter file name to create: ");
+                scanf("%s", name);
+
+                // Check if file already exists
+                int exists = 0;
+                for (int i = 0; i < n; i++) {
+                    if (strcmp(directory[i].fname, name) == 0) {
+                        exists = 1;
+                        break;
+                    }
+                }
+
+                if (exists) {
+                    printf("File '%s' already exists!\n", name);
+                } else {
+                    strcpy(directory[n].fname, name);
+                    n++;
+                    printf("File '%s' created successfully.\n", name);
+                }
+                break;
+
+            case 2:
+                printf("Enter file name to delete: ");
+                scanf("%s", name);
+                int found = 0;
+                for (int i = 0; i < n; i++) {
+                    if (strcmp(directory[i].fname, name) == 0) {
+                        found = 1;
+                        for (int j = i; j < n - 1; j++)
+                            strcpy(directory[j].fname, directory[j + 1].fname);
+                        n--;
+                        printf("File '%s' deleted successfully.\n", name);
+                        break;
+                    }
+                }
+                if (!found)
+                    printf("File '%s' not found!\n", name);
+                break;
+
+            case 3:
+                printf("Enter file name to search: ");
+                scanf("%s", name);
+                found = 0;
+                for (int i = 0; i < n; i++) {
+                    if (strcmp(directory[i].fname, name) == 0) {
+                        printf("File '%s' found in directory.\n", name);
+                        found = 1;
+                        break;
+                    }
+                }
+                if (!found)
+                    printf("File '%s' not found!\n", name);
+                break;
+
+            case 4:
+                if (n == 0)
+                    printf("Directory is empty.\n");
+                else {
+                    printf("\nFiles in Directory:\n");
+                    for (int i = 0; i < n; i++)
+                        printf("%d. %s\n", i + 1, directory[i].fname);
+                }
+                break;
+
+            case 5:
+                printf("Exiting program.\n");
+                return 0;
+
+            default:
+                printf("Invalid choice! Please try again.\n");
+        }
+    }
+
+    return 0;
+}
