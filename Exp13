@@ -1,0 +1,32 @@
+            printf("%d\t\t%d\t\tNot Allocated\n", i + 1, processSize[i]);
+    }
+}
+
+int main() {
+    int m, n;
+    printf("Enter number of memory blocks: ");
+    scanf("%d", &m);
+    int blockSize[m];
+    printf("Enter size of each block:\n");
+    for (int i = 0; i < m; i++)
+        scanf("%d", &blockSize[i]);
+
+    printf("Enter number of processes: ");
+    scanf("%d", &n);
+    int processSize[n];
+    printf("Enter size of each process:\n");
+    for (int i = 0; i < n; i++)
+        scanf("%d", &processSize[i]);
+
+    // Copy original block sizes for each strategy
+    int block1[m], block2[m], block3[m];
+    for (int i = 0; i < m; i++) {
+        block1[i] = block2[i] = block3[i] = blockSize[i];
+    }
+
+    firstFit(block1, m, processSize, n);
+    bestFit(block2, m, processSize, n);
+    worstFit(block3, m, processSize, n);
+
+    return 0;
+}
